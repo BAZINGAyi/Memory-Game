@@ -46,7 +46,9 @@ h1 {
     box-shadow: 12px 15px 20px 0 rgba(46, 61, 73, 0.5);
     display: flex;
     flex-wrap: wrap;
+    /*Split horizontally*/
     justify-content: space-between;
+    /*Vertical segmentation*/
     align-items: center;
     margin: 0 0 3em;
 }
@@ -114,12 +116,12 @@ h1 {
     cursor: pointer;
 }
 
-/*rate: .deck .card.error_matching > error_matting*/ 
+/*rate: .deck .card.error_matching > error_matting*/
 .deck .card.error_matching {
     animation:shake 3s;
     -moz-animation:shake 3s;
-    -webkit-animation:shake 3s; 
-    -o-animation:shake 3s; 
+    -webkit-animation:shake 3s;
+    -o-animation:shake 3s;
 
     background: #ff0000;
 }
@@ -127,8 +129,8 @@ h1 {
 .deck .card.success_matching {
     animation:shake 3s;
     -moz-animation:shake 3s;
-    -webkit-animation:shake 3s; 
-    -o-animation:shake 3s; 
+    -webkit-animation:shake 3s;
+    -o-animation:shake 3s;
 
     background: #00ff00;
 }
@@ -250,8 +252,8 @@ h1 {
     box-shadow: 5px 2px 20px 0 rgba(46, 61, 73, 0.5);
     animation:shake 3s;
     -moz-animation:shake 3s;
-    -webkit-animation:shake 3s; 
-    -o-animation:shake 3s; 
+    -webkit-animation:shake 3s;
+    -o-animation:shake 3s;
 }
 
 .play_again {
@@ -299,7 +301,7 @@ h1 {
   .deck .card {
     height: 90px;
     width: 90px;
-  }  
+  }
 
   h1 {
     font-weight: 200;
@@ -324,7 +326,7 @@ h1 {
     height: 65px;
     width: 65px;
   }
-  
+
   h1 {
     font-weight: 150;
   }
