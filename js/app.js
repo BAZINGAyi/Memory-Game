@@ -327,7 +327,7 @@ playButton.addEventListener("click", function (){
 function startGame() {
 	initScoreHeader();
 	generatecardData(cardCount);
-	//shuffle(cardData);
+	shuffle(cardData);
 	generateCard(cardCount);
 	assignValueToEachCard();
 }
