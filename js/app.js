@@ -14,12 +14,16 @@ let openCardCount = 0;
 let icnoData = ['fa fa-cube','fa fa-paper-plane-o','fa fa-bicycle',
 				'fa fa-bolt','fa fa-bomb','fa fa-leaf','fa fa-diamond','fa fa-anchor'];
 let userMoveCount = 0;
-let useTime = Date.now();
+let useTime = 0;
 
 // game Layout id
 let gameLayout = document.getElementById("container");
 // win Layout id
 let congratulationLayout = document.getElementById("congratulation");
+// timer id
+let timer = document.getElementById("timer");
+// check timer is running;
+let timerIsRunning = false;
 
 //  Card Class is used to represent Itself
 let Card = function (value, icnoName,className) {
@@ -50,7 +54,7 @@ function generatecardData(dataCount) {
 function generateCard(cardCount) {
 	let deck =  document.getElementById("deck");
 	deck.innerHTML = "";
-	
+
 	for (let count = 0; count < cardCount; count++){
         // create <li> tag
 		let li = document.createElement("li");
@@ -61,7 +65,7 @@ function generateCard(cardCount) {
 				checkClickStrategy(this,liClassName);
         });
 
-		// create <i> tag 
+		// create <i> tag
 		let i = document.createElement("i");
 
 		// add to parent
@@ -94,14 +98,18 @@ function assignValueToEachCard() {
 
 // the method of user click to card
 function checkClickStrategy(obj,cardClassName) {
-  
+    // calculate time
+    if (!timerIsRunning) {
+        timerIsRunning = true;
+        timedCount();
+    }
     // if the card status == not open
 	if (cardClassName === "card") {
 		openCardCount++;
 		setClassNameOpenStatus(obj);
 
 		if (openCardCount == 2) {
-			// score 
+			// score
    			addUserMoveCount();
    			setStarRate();
 
@@ -135,7 +143,7 @@ function checkClickStrategy(obj,cardClassName) {
 
 					// The two value of  open card is different
 					function closeCard(){
-						// revert default status 
+						// revert default status
        					setClassNameCloseStatus(openedCard1);
 						setClassNameCloseStatus(openedCard2);
 						aggreeAllTagClickEvent();
@@ -143,7 +151,7 @@ function checkClickStrategy(obj,cardClassName) {
     				setTimeout(closeCard,1000);
 				}
 			}
-			
+
 		}
 
 	}
@@ -155,14 +163,14 @@ function isSuceess() {
 	let scoreDisplay = document.getElementById("socre_display");
 	// All card was matched
 	if (cardList.length === cardCount) {
-		let time = MillisecondToDate(new Date()-useTime);
 		let rate = document.getElementsByClassName("fa-star");
-		scoreDisplay.innerHTML = "With " + userMoveCount + " Moves and " + rate.length + " Stars and " + time;
+		scoreDisplay.innerHTML = "With " + userMoveCount + " Moves and " + rate.length + " Stars and " + useTime + "secs";
 		// hidden game layout
 		gameLayout.className = "no_display";
 		// display score layout
 		congratulation.className = "congratulation";
 		// restart game
+        clearTimeout(timePasue);
 		startGame();
 	}
 }
@@ -184,16 +192,17 @@ let liStarTagList = ulStarTag.getElementsByTagName("li");
 
 function initScoreHeader() {
 	userMoveCount = 0;
+    useTime = 0;
+    timerIsRunning = false;
 	moves.innerHTML = userMoveCount;
 	liStarTagList[0].firstChild.setAttribute("class","fa fa-star");
 	liStarTagList[1].firstChild.setAttribute("class","fa fa-star");
+    timer.innerHTML = "Time: 0s";
 }
 
 function setStarRate() {
 	// set stars rate
-	if (userMoveCount <= 18) {
-
-	}else if (userMoveCount <= 30 && userMoveCount >= 18) {
+	if (userMoveCount <= 30 && userMoveCount >= 18) {
 		liStarTagList[0].firstChild.setAttribute("class","fat");
 	}else {
 		liStarTagList[1].firstChild.setAttribute("class","fat");
@@ -202,8 +211,17 @@ function setStarRate() {
 
 function addUserMoveCount(){
 	userMoveCount++;
-	// set moves 
+	// set moves
 	moves.innerHTML = userMoveCount;
+}
+
+// calculate time
+let timePasue;
+function timedCount()
+{
+    timer.innerHTML = "Time: " + useTime + "s";
+    useTime = useTime + 1;
+    timePasue = setTimeout("timedCount()",1000)
 }
 /*******  head end ***********/
 
@@ -214,7 +232,7 @@ function addUserMoveCount(){
 
 /*******  utils start *********/
 
-// Randomly disrupted the array 
+// Randomly disrupted the array
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
 
@@ -278,30 +296,6 @@ function reomoveSpecifiedTagInArray(array,className) {
 		}
 	}
 	return newArray;
-}
-
-function MillisecondToDate(msd) {
-    let time = parseFloat(msd) / 1000;
-    if (null != time && "" != time) {
-        if (time > 60 && time < 60 * 60) {
-            time = parseInt(time / 60.0) + "mins" 
-                 + parseInt((parseFloat(time / 60.0) 
-                 - parseInt(time / 60.0)) * 60) + "秒";
-
-        }else if (time >= 60 * 60 && time < 60 * 60 * 24) {
-            time = parseInt(time / 3600.0) + "hours"
-                 + parseInt((parseFloat(time / 3600.0) 
-                 - parseInt(time / 3600.0)) * 60) + "mins" 
-                 + parseInt((parseFloat((parseFloat(time / 3600.0) 
-                 - parseInt(time / 3600.0)) * 60) 
-                 - parseInt((parseFloat(time / 3600.0) 
-                 - parseInt(time / 3600.0)) * 60)) * 60) + "secs";
-        }
-        else {
-            time = parseInt(time) + "secs";
-        }
-    }
-    return time;
 }
 /*******  utils end *********/
 
